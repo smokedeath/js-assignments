@@ -278,7 +278,21 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    if (/[^0-9-\s]+/.test(ccn)) return false;
+    let chek = 0;
+    let digit = 0;
+    let even = false;
+    ccn = ccn.toString().replace(/\D/g, "");
+    for (let n = ccn.length - 1; n >= 0; n--) {
+        let digit1 = ccn.charAt(n),
+            digit = parseInt(digit1, 10);
+        if (even) {
+            if ((digit *= 2) > 9) digit -= 9;
+        }
+        chek += digit;
+        even = !even;
+    }
+    return (chek % 10) === 0;
 }
 
 
@@ -297,7 +311,15 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    do {
+        let arr = String(num).split('');
+        num = 0;
+        arr.map(function (el) {
+            el = +el;
+            num += el;
+        });
+    } while ((num > 9) );
+    return num;
 }
 
 
@@ -323,7 +345,34 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    let bracketsConfig = [['(', ')'], ['[', ']'], ['{', '}'], ['<', '>']];
+    if (str.trim().length===0) return true;
+    let stek = [];
+    let first = {};
+
+    const arrStr = str.split('');
+    for (let s = 0; s < arrStr.length; s++) {
+        for (let i = 0; i < bracketsConfig.length; i++) {
+            if (arrStr[s]===bracketsConfig[i][0]) {
+                if (first[bracketsConfig[i][0]] == null) {
+                    stek.push(bracketsConfig[i][0]);
+                    if (bracketsConfig[i][0]===bracketsConfig[i][1]) { first[bracketsConfig[i][0]] = true; }
+                } else {
+                    delete first[bracketsConfig[i][0]];
+                }
+
+            }
+            if (arrStr[s]===bracketsConfig[i][1]) {
+                if (first[bracketsConfig[i][0]] == null) {
+                    if (stek.length===0) return false;
+                    let p = stek.pop();
+                    if (p !== bracketsConfig[i][0]) return false;
+                }
+            }
+        }
+    }
+
+    return stek.length===0;
 }
 
 
