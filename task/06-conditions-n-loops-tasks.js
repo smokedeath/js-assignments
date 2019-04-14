@@ -408,7 +408,27 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
+    let second = 1000;
+    let minute = 60 * second;
+    let hour = 60 * minute;
+    let day = 24 * hour;
+    let month = 30 * day;
+    let year = 365 * day;
+    let result = endDate - startDate;
+    function count(param) {
+        return Math.floor((result + param / 2 - 1) / param)
+    }
+    if (result / second <= 45) return 'a few seconds ago';
+    else if (result / second <= 90) return 'a minute ago';
+         else if (result / minute <= 45) return count(minute) + ' minutes ago';
+            else if (result / minute <= 90) return 'an hour ago';
+                else if (result / hour <= 22) return count(hour) + ' hours ago';
+                    else if (result / hour <= 36) return 'a day ago';
+                        else if (result / day <= 25) return count(day) + ' days ago';
+                            else if (result / day <= 45) return 'a month ago';
+                                else if (result / day <= 345) return count(month) + ' months ago';
+                                    else if (result / day <= 545) return 'a year ago';
+                                        else return count(year) + ' years ago';
 }
 
 
@@ -432,7 +452,7 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    return num.toString(n);
 }
 
 
@@ -472,7 +492,19 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+    let a = m1.length;
+    let b = m2.length;
+    let len = m2[0].length;
+    let arr = new Array(a);
+    let result = Array.from(arr, function() {
+        return new Array(len).fill(0);
+    });
+    for (let i = 0; i < a; i++){
+        for (let j = 0; j < len; j++){
+            for (let t = 0; t < b; t++) {
+                result[i][j] = result[i][j] + m1[i][t] * m2[t][j];
+            }}}
+    return result
 }
 
 
